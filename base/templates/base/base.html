@@ -1,0 +1,72 @@
+{% load bootstrap5 %}
+{% load static %}
+{% load fontawesome_5 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+
+    <!--Custom Font Import-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fjalla+One">
+
+    <!--Bootstrap and FontAwesome-->
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% fontawesome_5_static %}
+
+    <!--Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/base.css' %}" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+
+    <!--AJAX-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    {% block extraheadelements %}{% endblock %}
+</head>
+<body>
+    <header></header>
+    <main>
+        <div class="container py-4">
+            <header class="pb-1 mb-4 border-bottom">
+                <h2>Load Unbalance Reduction in Low Voltage Feeder</h2>
+                <small class="text-muted">by dynamic switching of Residential customres among three phase</small>
+            </header>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="p-5 mb-4 bg-light rounded-3">
+                <div class="container-fluid py-5">
+                  {% block content %} {% endblock %}
+                </div>
+              </div>
+
+            <footer class="footer mt-auto py-3 bg-light">
+            <div class="container">
+                <span class="text-muted inline">Yubraj Chimouriya, Aship Chaudhary, Abhijeet Chaudhary</span>
+                <span class="text-muted inline" style="float: right;">Supervised by: Dr. Samundra Gurung</span>
+            </div>
+            </footer>
+        </div>
+        {% block extra %}{% endblock extra %}
+    </main>
+    <footer></footer>
+</body>
+</html>
