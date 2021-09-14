@@ -13,8 +13,7 @@ def add_to_database(request, controller_id):
     reactive_power = request.GET.get('q', '')
     phase_connection = request.GET.get('abc', '')
     if all([rms_voltage, rms_current, active_power, reactive_power]):
-        try:
-            parameter = ElectricalParameters(
+        parameter = ElectricalParameters(
                 controller=controller,
                 rms_voltage=float(rms_voltage), 
                 rms_current=float(rms_current), 
@@ -22,16 +21,22 @@ def add_to_database(request, controller_id):
                 reactive_power=float(reactive_power),
                 phase_connection=phase_connection,
                 )
-            parameter.save()
-        except Exception:
-            parameter = ElectricalParameters.objects.filter(controller=controller).first()
-            parameter.rms_voltage = float(rms_voltage)
-            parameter.rms_current = float(rms_current)
-            parameter.active_power = float(active_power)
-            parameter.reactive_power = float(reactive_power)
-            parameter.phase_connection = phase_connection
-            parameter.save()
+        parameter.save()
         messages.success(request, f"{controller}'s parameter updated!")
     else:
         messages.error(request, "Parameter update failed!")
     return redirect('base:home')
+
+
+def view_controller_detail(request, controller_id):
+    controller = get_object_or_404(Controller, id=controller_id)
+    parameters = ElectricalParameters.objects.filter(controller=controller)[:10]
+    master = False
+    if controller_id == 1:
+        master = True
+
+    return render(request,
+                'controller/detail.html',
+                {'controller': controller,
+                'parameters': parameters,
+                'master': master})

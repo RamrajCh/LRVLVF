@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<h4>Electrical Parameters of {{ controller.name }} (Recent 10 datas)</h4>
+<div class="container-fluid py-3">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">RMS Voltage</th>
+            <th scope="col">RMS Current</th>
+            <th scope="col">Active Power</th>
+            <th scope="col">Reactive Power</th>
+            {% if not master %}
+                <th scope="col">Phase Connection</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+            {% for param in parameters %}
+            <tr>
+                <th scope="row">{{ param.created }}</th>
+                <td>{{ param.rms_voltage }}</td>
+                <td>{{ param.rms_current }}</td>
+                <td>{{ param.active_power }}</td>
+                <td>{{ param.reactive_power }}</td>
+                {% if param.phase_connection %}
+                <td>{{ param.phase_connection }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

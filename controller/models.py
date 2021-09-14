@@ -21,12 +21,12 @@ class ElectricalParameters(models.Model):
     active_power = models.DecimalField(max_digits=10, decimal_places=5)
     reactive_power = models.DecimalField(max_digits=10, decimal_places=5)
     phase_connection = models.CharField(max_length=1, blank=True)
-    controller = models.OneToOneField(Controller, on_delete=models.CASCADE, related_name='parameters')
+    controller = models.ForeignKey(Controller, on_delete=models.CASCADE, related_name='parameters')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ('controller',)
+        ordering = ('controller','-created',)
     
     def __str__(self) -> str:
-        return f'Parameters for Controller: {self.controller.name}'
+        return f'Parameters for Controller: {self.controller.name} date: {self.created}'

@@ -2,24 +2,34 @@
 {% load static %}
 
 {% block content %}
-    <div class="row">
-        {% for parameter in parameters %}
-            <div class="col-3 mb-3">
-                <div class="card" style="width: 15rem; height:15rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ parameter.controller.name }}</h5>
-                        <ul class="list-group list-group-flush" style="font-size: smaller;">
-                            <li class="list-group-item text-muted">RMS Voltage: {{ parameter.rms_voltage }} V</li>
-                            <li class="list-group-item text-muted">RMS Current: {{ parameter.rms_current }} A</li>
-                            <li class="list-group-item text-muted">Active Power: {{ parameter.active_power }} W</li>
-                            <li class="list-group-item text-muted">Reactive Power: {{ parameter.reactive_power }} W</li>
-                            {% if parameter.phase_connection %}
-                                <li class="list-group-item text-muted">Phase Connection: {{ parameter.phase_connection}}</li>
-                            {% endif %}
-                          </ul>
-                    </div>
+    <h4>Recent Electrical Parameters in Controller</h4>
+    <div class="container-fluid py-3">
+        <div class="row">
+            {% for parameter in parameters %}
+                <div class="col-3 mb-3">
+                    <a href=" {% url 'controller:controller_detail' parameter.controller.id %}" class="text-decoration-none text-dark" title="Click to view {{ parameter.controller.name }}'s recent parameters">
+                        <div class="card" style="width: 15rem; height:19rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ parameter.controller.name }}
+                                </h5>
+                                <small class="text-muted"><small><i>{{ parameter.created }}</i></small></small>
+                                <hr>
+                                <ul class="list-group list-group-flush" style="font-size: smaller;">
+                                    <li class="list-group-item text-muted">RMS Voltage: {{ parameter.rms_voltage }} V</li>
+                                    <li class="list-group-item text-muted">RMS Current: {{ parameter.rms_current }} A</li>
+                                    <li class="list-group-item text-muted">Active Power: {{ parameter.active_power }} W</li>
+                                    <li class="list-group-item text-muted">Reactive Power: {{ parameter.reactive_power }} W</li>
+                                    {% if parameter.phase_connection %}
+                                        <li class="list-group-item text-muted">Phase Connection: {{ parameter.phase_connection}}</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+                  
     </div>
 {% endblock %}

@@ -1,14 +1,16 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
 
-from controller.models import ElectricalParameters
+from controller.models import ElectricalParameters as E, Controller as C
 
 # Create your views here.
 
-class HomePageView(TemplateView):
-    template_name = 'base/home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['parameters'] = ElectricalParameters.objects.all()
-        return context
+def home_page(request):
+    controller = C.objects.all()
+    parameters = []
+    for p in controller:
+        if E.objects.filter(controller=p).exists():
+            parameters.append(E.objects.filter(controller=p).order_by('-created')[0])
+    
+    return render(request,
+                'base/home.html',
+                {'parameters': parameters,})
